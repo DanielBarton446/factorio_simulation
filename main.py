@@ -1,4 +1,5 @@
-from factorio_simulation.simulation import world_simulation
+# from factorio_simulation.simulation import world_simulation
+from factorio_simulation.simulation import dummy_simulation
 import argparse
 
 def _setup_argparse():
@@ -12,7 +13,7 @@ def parse_args():
 def main():
     args = parse_args()
 
-    world = world_simulation.WorldSimulation(args.config)
+    world = dummy_simulation.DummySimulation(args.config)
 
     world.run()
 

@@ -14,8 +14,7 @@ class WorldSimulation:
         else:
             return load_config(config_file_name)
 
+
     def run(self):
-        print(self.config)
         while self.current_tick < self.config.runtime_ticks:
             self.current_tick += 1
-            # print(f'Running tick {self.current_tick}')
