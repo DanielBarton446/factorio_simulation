@@ -7,6 +7,3 @@ class Component:
 
     def __hash__(self):
         return hash(type(self))
-
-    def update(self, current_tick):
-        pass

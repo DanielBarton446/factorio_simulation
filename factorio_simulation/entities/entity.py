@@ -1,5 +1,5 @@
 from factorio_simulation.components.component import Component
-from typing import Set
+from typing import Set, Optional
 
 
 class Entity:
@@ -16,12 +16,15 @@ class Entity:
     # def remove_component(self, component_type: type):
     #     self.components.remove(component_type)
 
-    def get_component(self, component_type: type):
+    def get_component(self, component_type: type) -> Optional[Component]:
         for component in self.components:
             if isinstance(component, component_type):
                 return component
         return None
 
-    def update(self, current_tick):
+    def has_component_type(self, component_type: type) -> bool:
         for component in self.components:
-            component.update(current_tick)
+            if type(component) is component_type:
+                return True
+            
+        return False

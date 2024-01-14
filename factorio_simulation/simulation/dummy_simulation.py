@@ -1,6 +1,6 @@
 from typing import Optional, List
 from factorio_simulation.configs.config import load_config
-from factorio_simulation.systems.world_system import WorldSystem
+from factorio_simulation.systems.dummy_system import DummySystem
 from factorio_simulation.entities.entity import Entity
 from factorio_simulation.entities.dummy_entity import DummyEntity
 from factorio_simulation.components.dummy_component import DummyComponent
@@ -11,7 +11,7 @@ class DummySimulation:
 
         initial_entities: List[Entity] = self._arbitrary_entities()
 
-        self.world_system = WorldSystem(initial_entities)
+        self.dummy_system = DummySystem(initial_entities)
         self.current_tick = 0
 
     def _load_config(self, config_file_name: Optional[str]):
@@ -37,5 +37,4 @@ class DummySimulation:
         while self.current_tick < self.config.runtime_ticks:
             self.current_tick += 1
             print(f'Running tick {self.current_tick}')
-            self.world_system.update(self.current_tick)
-
+            self.dummy_system.update(self.current_tick)
