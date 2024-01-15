@@ -1,5 +1,4 @@
 from typing import Optional, List
-from factorio_simulation.entities.entity import Entity
 from factorio_simulation.entities.tile import Tile
 from factorio_simulation.components.tile_content import TileContent
 from factorio_simulation.components.position import Position
@@ -9,9 +8,9 @@ from numpy.typing import ArrayLike
 import numpy
 
 
-class WorldSystem(System):
+class WorldRender(System):
     def __init__(self, width: int = 0, height: int = 0,
-                 base_entities: Optional[List[Entity]] = None):
+                 base_entities: Optional[List[Tile]] = None):
         super().__init__(base_entities)
         self.width = width
         self.height = height

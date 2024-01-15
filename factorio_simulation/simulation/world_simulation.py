@@ -1,5 +1,5 @@
 from factorio_simulation.configs.config import load_config
-from factorio_simulation.systems.world_system import WorldSystem
+from factorio_simulation.systems.world_render import WorldRender
 from factorio_simulation.systems.corruption_system import CorruptionSystem
 from typing import Optional
 
@@ -10,7 +10,7 @@ class WorldSimulation:
         self.config = self._load_config(config_file_name)
         self.current_tick = 0
 
-        self.world_system = WorldSystem(self.config.width, self.config.height)
+        self.world_system = WorldRender(self.config.width, self.config.height)
         self.corruption = CorruptionSystem(self.world_system.entities)
         super().__init__()
 
