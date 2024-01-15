@@ -8,7 +8,7 @@ class Tile(Entity):
     def __init__(self, id, x, y, content=None):
         super().__init__(id)
 
-        self.add_component(TileContent(420))
+        self.add_component(TileContent(420, content))
         self.add_component(Position(420, x, y))
 
     def __repr__(self):
