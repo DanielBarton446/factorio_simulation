@@ -6,7 +6,7 @@ from factorio_simulation.components.dummy_component import DummyComponent
 
 class DummySystem(System):
     def __init__(self, base_entities: Optional[List[Entity]] = None):
-        self.entities = base_entities or []
+        super().__init__(base_entities)
 
     def update(self, current_tick):
         if current_tick % 60 != 0:
@@ -14,4 +14,7 @@ class DummySystem(System):
 
         for entity in self.entities:
             if entity.has_component_type(DummyComponent):
-                print(f'Entity {entity.entity_id} has dummy component')
+                name = entity.get_component(DummyComponent).name
+                print(f'Entity {entity.entity_id}: Hello, my name is {name}!')
+            else:
+                print(f'{type(entity)}: does not have component of type: {DummyComponent}')
