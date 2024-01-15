@@ -6,6 +6,9 @@ import argparse
 def _setup_argparse():
     parser = argparse.ArgumentParser(description='Run a factorio simulation')
     parser.add_argument('-c', '--config', type=str, help='Config file to use')
+    parser.add_argument('-x', '--no-render',
+                        help='Do not render the simulation',
+                        action='store_true')
     return parser
 
 
@@ -18,7 +21,7 @@ def main():
     args = parse_args()
 
     # world = dummy_simulation.DummySimulation(args.config)
-    world = world_simulation.WorldSimulation(args.config)
+    world = world_simulation.WorldSimulation(not args.no_render, args.config)
 
     world.run()
 

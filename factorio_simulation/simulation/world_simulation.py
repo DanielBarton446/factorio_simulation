@@ -6,11 +6,14 @@ from typing import Optional
 
 class WorldSimulation:
 
-    def __init__(self, config_file_name: Optional[str] = None):
+    def __init__(self, should_render: bool = True,
+                 config_file_name: Optional[str] = None):
         self.config = self._load_config(config_file_name)
         self.current_tick = 0
 
-        self.world_system = WorldRender(self.config.width, self.config.height)
+        self.world_system = WorldRender(self.config.width,
+                                        self.config.height,
+                                        should_render)
         self.corruption = CorruptionSystem(self.world_system.entities)
         super().__init__()
 

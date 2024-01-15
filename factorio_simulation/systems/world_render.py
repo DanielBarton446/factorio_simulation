@@ -10,10 +10,12 @@ import numpy
 
 class WorldRender(System):
     def __init__(self, width: int = 0, height: int = 0,
+                 should_render: bool = True,
                  base_entities: Optional[List[Tile]] = None):
         super().__init__(base_entities)
         self.width = width
         self.height = height
+        self.should_render = should_render
         self.world: ArrayLike[Tile] = self.__empty_map(width, height)
 
     def get_tile(self, x: int, y: int) -> Tile:
@@ -66,5 +68,7 @@ class WorldRender(System):
                 position = entity.get_component(Position)
                 self.world[position.y][position.x] = entity
 
-        print(f'{current_tick}')
-        self.render()
+        # ideally, this is removed when running.
+        if self.should_render:
+            print(f'{current_tick}')
+            self.render()
