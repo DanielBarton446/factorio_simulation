@@ -14,7 +14,7 @@ class WorldSimulation:
         self.world_system = WorldRender(self.config.width,
                                         self.config.height,
                                         should_render)
-        self.corruption = CorruptionSystem(self.world_system.entities)
+        self.corruption = CorruptionSystem(self.world_system.entities, 300)
         super().__init__()
 
     def _load_config(self, config_file_name: Optional[str]):

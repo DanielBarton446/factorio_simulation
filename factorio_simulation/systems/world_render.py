@@ -52,21 +52,22 @@ class WorldRender(System):
     def render(self):
         for (y, vals) in enumerate(self.world):
             for x, tile in enumerate(vals):
-                comp_pos = tile.get_component(Position)
-                if self.world[comp_pos.y][comp_pos.x] != tile:
-                    evicted = self.world[comp_pos.y][comp_pos.x]
-                    evicted.update_component(TileContent(-42))
-                    self.set_tile(tile, comp_pos.x, comp_pos.y)
-                    self.set_tile(evicted, x, y)
                 print(self.get_tile(x, y), end=' ')
             print()
 
     def update(self, current_tick):
-        # Update position of entities in the world
-        for entity in self.entities:
-            if entity.has_component_type(Position):
-                position = entity.get_component(Position)
-                self.world[position.y][position.x] = entity
+        # Iterate through the world and update the position of each tile
+        # if they have been moved from their original position.
+        for (y, vals) in enumerate(self.world):
+            for x, tile in enumerate(vals):
+                comp_pos = tile.get_component(Position)
+                if self.world[comp_pos.y][comp_pos.x] != tile:
+                    evicted = self.get_tile(x, y)
+                    evicted.update_component(TileContent(-42))
+                    self.set_tile(evicted, x, y)
+                    self.set_tile(tile, comp_pos.x, comp_pos.y)
+                position = tile.get_component(Position)
+                self.world[position.y][position.x] = tile
 
         # ideally, this is removed when running.
         if self.should_render:
