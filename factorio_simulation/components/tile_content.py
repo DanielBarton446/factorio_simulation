@@ -3,7 +3,7 @@ from factorio_simulation.components.component import Component
 
 class TileContent(Component):
 
-    def __init__(self, component_id, content=None):
+    def __init__(self, component_id, content=''):
         self.content = content
         super().__init__(component_id)
 

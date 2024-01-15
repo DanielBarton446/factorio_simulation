@@ -16,6 +16,15 @@ class Entity:
         self.entity_id: int = entity_id
         self.components: Dict = dict()
 
+    def update_component(self, component: Component):
+        """
+        NOTE: this is more performant than add_component, but at
+        the cost of overwriting the component if it already exists.
+
+        Set or update a component on the entity if it already exists.
+        """
+        self.components[type(component)] = component
+
     def add_component(self, component: Component):
         """
         Add a component to the entity
@@ -26,6 +35,9 @@ class Entity:
         self.components[type(component)] = component
 
     def remove_component(self, component_type: type):
+        """
+        Given the type of component, remove it from this entity
+        """
         del self.components[component_type]
 
     def get_component(self, component_type: type) -> Optional[Component]:
@@ -41,4 +53,3 @@ class Entity:
         """
 
         return self.components.get(component_type) is not None
-
