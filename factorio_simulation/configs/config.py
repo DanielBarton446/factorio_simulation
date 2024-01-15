@@ -8,6 +8,8 @@ import configparser
 class Config:
     tick_rate: int
     runtime_ticks: int
+    width: int
+    height: int
 
 
 def load_config(file_name: str = 'normal_world.ini'):
@@ -21,7 +23,10 @@ def load_config(file_name: str = 'normal_world.ini'):
     try:
         tick_rate: int = int(conf_parser['simulation']['tick_rate'])
         runtime: int = int(conf_parser['simulation']['runtime_ticks'])
+        width: int = int(conf_parser['world']['width'])
+        height: int = int(conf_parser['world']['height'])
     except KeyError:
         raise ValueError(f'Config file {config_file} is missing required values')
-    
-    return Config(tick_rate=tick_rate, runtime_ticks=runtime)
+
+    return Config(tick_rate=tick_rate, runtime_ticks=runtime,
+                  width=width, height=height)
