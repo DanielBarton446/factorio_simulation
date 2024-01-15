@@ -8,15 +8,13 @@ from numpy.typing import ArrayLike
 import numpy
 
 
-class WorldRender(System):
+class WorldSystem(System):
     def __init__(self, width: int = 0, height: int = 0,
-                 should_render: bool = True,
                  base_entities: Optional[List[Tile]] = None):
         super().__init__(base_entities)
         self.width = width
         self.height = height
-        self.should_render = should_render
-        self.world: ArrayLike[Tile] = self.__empty_map(width, height)
+        self.world: ArrayLike = self.__empty_map(width, height)
 
     def get_tile(self, x: int, y: int) -> Tile:
         """
@@ -40,7 +38,7 @@ class WorldRender(System):
         """
         self.world[y][x] = tile
 
-    def __empty_map(self, width, height):
+    def __empty_map(self, width, height) -> ArrayLike:
         vec = numpy.empty(width * height, dtype=Tile)
         for i in range(width * height):
             tile = Tile(1337, i % width, i // width, content='')
@@ -49,15 +47,10 @@ class WorldRender(System):
         dimensionalized_map = vec.reshape(width, height)
         return dimensionalized_map
 
-    def render(self):
-        for (y, vals) in enumerate(self.world):
-            for x, tile in enumerate(vals):
-                print(self.get_tile(x, y), end=' ')
-            print()
-
     def update(self, current_tick):
         # Iterate through the world and update the position of each tile
         # if they have been moved from their original position.
+
         for (y, vals) in enumerate(self.world):
             for x, tile in enumerate(vals):
                 comp_pos = tile.get_component(Position)
@@ -68,8 +61,3 @@ class WorldRender(System):
                     self.set_tile(tile, comp_pos.x, comp_pos.y)
                 position = tile.get_component(Position)
                 self.world[position.y][position.x] = tile
-
-        # ideally, this is removed when running.
-        if self.should_render:
-            print(f'{current_tick}')
-            self.render()
