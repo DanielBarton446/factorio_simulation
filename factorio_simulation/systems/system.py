@@ -22,5 +22,3 @@ class System:
 
     def update(self, current_tick):
         pass
-        # for entity in self.entities:
-        #     entity.update(current_tick)
