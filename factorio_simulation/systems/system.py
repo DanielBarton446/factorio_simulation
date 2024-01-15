@@ -1,10 +1,11 @@
 from factorio_simulation.entities.entity import Entity
 from typing import List
 
+
 class System:
 
-    def __init__(self):
-        self.entities: List[Entity] = []
+    def __init__(self, base_entities: List[Entity] = None):
+        self.entities: List[Entity] = base_entities or []
 
     def add_entity(self, entity: Entity):
         self.entities.append(entity)
