@@ -50,6 +50,9 @@ class Renderer(System):
         self.stdscr.refresh()
         sleep(1 / 60)
 
+    def teardown(self):
+        curses.endwin()
+
     def update(self, current_tick):
         if not self.should_render:
             return

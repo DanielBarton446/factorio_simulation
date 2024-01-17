@@ -34,3 +34,4 @@ class WorldSimulation:
             self.renderer.update(self.current_tick)
 
             self.current_tick += 1
+        self.renderer.teardown()
