@@ -4,6 +4,9 @@ from factorio_simulation.systems.system import System
 
 from numpy.typing import ArrayLike
 
+import curses
+from time import sleep
+
 
 class Renderer(System):
     def __init__(self,
@@ -13,6 +16,9 @@ class Renderer(System):
         self.should_render = should_render
         self.world = world
         self.tick_rate = tick_rate
+        self.stdscr = curses.initscr()
+        curses.curs_set(0)
+
         super().__init__()
 
     def get_tile(self, x: int, y: int) -> Tile:
@@ -40,13 +46,13 @@ class Renderer(System):
     def render(self):
         for (y, vals) in enumerate(self.world):
             for x, tile in enumerate(vals):
-                print(self.get_tile(x, y), end=' ')
-            print()
+                self.stdscr.addstr(y, x, str(tile))
+        self.stdscr.refresh()
+        sleep(1 / 60)
 
     def update(self, current_tick):
         if not self.should_render:
             return
 
         if current_tick % self.tick_rate == 0:
-            print(f"{current_tick}")
             self.render()

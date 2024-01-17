@@ -41,7 +41,7 @@ class WorldSystem(System):
     def __empty_map(self, width, height) -> ArrayLike:
         vec = numpy.empty(width * height, dtype=Tile)
         for i in range(width * height):
-            tile = Tile(1337, i % width, i // width, content='')
+            tile = Tile(1337, i % width, i // width, content='.')
             vec[i] = tile
             self.add_entity(tile)
         dimensionalized_map = vec.reshape(width, height)
