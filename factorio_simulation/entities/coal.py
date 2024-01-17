@@ -3,12 +3,12 @@ from factorio_simulation.components.tile_content import TileContent
 from factorio_simulation.components.position import Position
 
 
-class Tile(Entity):
+class Coal(Entity):
 
-    def __init__(self, x, y, content=None):
-        super().__init__()
+    def __init__(self, id, x, y):
+        super().__init__(id)
 
-        self.add_component(TileContent(content))
+        self.add_component(TileContent(""))
         self.add_component(Position(x, y))
 
     def __repr__(self):

@@ -18,4 +18,4 @@ class CorruptionSystem(System):
     def update(self, current_tick):
         if current_tick % self.tick_rate == 0:
             to_corrupt = random.choice(self.entities[Tile])
-            to_corrupt.update_component(TileContent(666, '󰈸'))
+            to_corrupt.update_component(TileContent('󰈸'))

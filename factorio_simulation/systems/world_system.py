@@ -38,10 +38,21 @@ class WorldSystem(System):
         """
         self.world[y][x] = tile
 
+    def set_tile_content(self, content: TileContent, x: int, y: int):
+        """
+        Sets the tile content at the given coordinates to the given content.
+        Primarily used for consistency in world access.
+
+        @param x: the cartesian x coordinate of the tile
+        @param y: the cartesian y coordinate of the tile
+        @param content: the content to set at the given coordinates.
+        """
+        self.world[y][x].update_component(content)
+
     def __empty_map(self, width, height) -> ArrayLike:
         vec = numpy.empty(width * height, dtype=Tile)
         for i in range(width * height):
-            tile = Tile(1337, i % width, i // width, content='.')
+            tile = Tile(i % width, i // width, content='.')
             vec[i] = tile
             self.add_entity(tile)
         dimensionalized_map = vec.reshape(width, height)
@@ -56,7 +67,7 @@ class WorldSystem(System):
                 comp_pos = tile.get_component(Position)
                 if self.world[comp_pos.y][comp_pos.x] != tile:
                     evicted = self.get_tile(x, y)
-                    evicted.update_component(TileContent(-42))
+                    evicted.update_component(TileContent())
                     self.set_tile(evicted, x, y)
                     self.set_tile(tile, comp_pos.x, comp_pos.y)
                 position = tile.get_component(Position)

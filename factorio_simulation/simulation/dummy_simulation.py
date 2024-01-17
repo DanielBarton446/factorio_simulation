@@ -1,15 +1,16 @@
-from typing import Optional, List
+from typing import Optional, List, Dict
 from factorio_simulation.configs.config import load_config
 from factorio_simulation.systems.dummy_system import DummySystem
 from factorio_simulation.entities.entity import Entity
 from factorio_simulation.entities.dummy_entity import DummyEntity
 from factorio_simulation.components.dummy_component import DummyComponent
 
+
 class DummySimulation:
     def __init__(self, config_file_name: Optional[str] = None):
         self.config = self._load_config(config_file_name)
 
-        initial_entities: List[Entity] = self._arbitrary_entities()
+        initial_entities: Dict[type, List[Entity]] = self._arbitrary_entities()
 
         self.dummy_system = DummySystem(initial_entities)
         self.current_tick = 0
@@ -20,16 +21,19 @@ class DummySimulation:
         else:
             return load_config(config_file_name)
 
-    def _arbitrary_entities(self):
-        entities: List[Entity] = []
-        for i in range(10):
-            entities.append(DummyEntity(i))
+    def _arbitrary_entities(self) -> Dict[type, List[Entity]]:
+        base_entities_dict: Dict[type, List[Entity]] = dict()
+        entities_list: List[Entity] = list()
+
+        for _ in range(10):
+            entities_list.append(DummyEntity())
 
         for j in range(5):
-            comp = DummyComponent(j)
-            entities[j].add_component(comp)
+            comp = DummyComponent()
+            entities_list[j].add_component(comp)
+        base_entities_dict[DummyEntity] = entities_list
 
-        return entities
+        return base_entities_dict
 
     def run(self):
         while self.current_tick < self.config.runtime_ticks:

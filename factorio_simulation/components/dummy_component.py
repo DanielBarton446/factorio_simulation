@@ -3,6 +3,6 @@ import randomname
 
 
 class DummyComponent(Component):
-    def __init__(self, component_id):
-        super().__init__(component_id)
+    def __init__(self):
+        super().__init__()
         self.name = randomname.generate('names/surnames/english')

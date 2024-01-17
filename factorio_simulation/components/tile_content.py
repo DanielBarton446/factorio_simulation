@@ -3,9 +3,9 @@ from factorio_simulation.components.component import Component
 
 class TileContent(Component):
 
-    def __init__(self, component_id, content=''):
+    def __init__(self, content=''):
         self.content = content
-        super().__init__(component_id)
+        super().__init__()
 
     def __hash__(self):
         return hash(type(self))

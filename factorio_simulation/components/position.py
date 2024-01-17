@@ -10,8 +10,8 @@ class Position(Component):
         issues with how x and y are represented in arrays.
     """
 
-    def __init__(self, component_id, x, y):
-        super().__init__(component_id)
+    def __init__(self, x, y):
+        super().__init__()
         self.x = x
         self.y = y
 

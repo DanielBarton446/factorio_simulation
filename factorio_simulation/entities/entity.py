@@ -1,5 +1,7 @@
 from factorio_simulation.components.component import Component
 from typing import Dict, Optional
+from uuid import uuid4
+from uuid import UUID
 
 
 class Entity:
@@ -7,13 +9,13 @@ class Entity:
     An entity is a collection of components.
     """
 
-    def __init__(self, entity_id):
+    def __init__(self):
         """
         @param entity_id: The unique id of the entity
         @param components: Set of components that the entity has
         """
 
-        self.entity_id: int = entity_id
+        self.entity_id: UUID = uuid4()
         self.components: Dict = dict()
 
     def update_component(self, component: Component):
