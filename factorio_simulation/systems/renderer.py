@@ -1,11 +1,13 @@
 from typing import Optional
 from factorio_simulation.entities.tile import Tile
 from factorio_simulation.systems.system import System
+from time import sleep
 
 from numpy.typing import ArrayLike
 
 import curses
-from time import sleep
+import sys
+import signal
 
 
 class Renderer(System):
@@ -16,10 +18,20 @@ class Renderer(System):
         self.should_render = should_render
         self.world = world
         self.tick_rate = tick_rate
+
+        # handle ctrl + c before screwing up the terminal
+        signal.signal(signal.SIGINT, Renderer.signal_handler)
+        signal.signal(signal.SIGTERM, Renderer.signal_handler)
+
         self.stdscr = curses.initscr()
         curses.curs_set(0)
 
         super().__init__()
+
+    @staticmethod
+    def signal_handler(signal, frame):
+        curses.endwin()
+        sys.exit(0)
 
     def get_tile(self, x: int, y: int) -> Tile:
         """
