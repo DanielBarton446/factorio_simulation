@@ -39,7 +39,10 @@ class WorldSimulation:
         super().__init__()
 
     def _load_config(self, config_file_name: Optional[str]):
-        return load_config(config_file_name)
+        if config_file_name is None:
+            return load_config()
+        else:
+            return load_config(config_file_name)
 
     def run(self):
         while self.current_tick <= self.config.runtime_ticks:
