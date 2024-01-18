@@ -26,7 +26,7 @@ class Renderer(System):
         self.stdscr = curses.initscr()
         curses.curs_set(0)
 
-        super().__init__()
+        super().__init__(entity_registry=None)
 
     @staticmethod
     def signal_handler(signal, frame):

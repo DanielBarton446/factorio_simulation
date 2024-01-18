@@ -1,5 +1,6 @@
 from typing import Optional, List
 from factorio_simulation.entities.tile import Tile
+from factorio_simulation.entities.entity_registry import EntityRegistry
 from factorio_simulation.components.tile_content import TileContent
 from factorio_simulation.components.position import Position
 from factorio_simulation.systems.system import System
@@ -9,9 +10,11 @@ import numpy
 
 
 class WorldSystem(System):
-    def __init__(self, width: int = 0, height: int = 0,
+    def __init__(self,
+                 entity_registry: EntityRegistry,
+                 width: int = 0, height: int = 0,
                  base_entities: Optional[List[Tile]] = None):
-        super().__init__(base_entities)
+        super().__init__(entity_registry, base_entities)
         self.width = width
         self.height = height
         self.__world: NDArray[Tile] = self.__empty_map(width, height)

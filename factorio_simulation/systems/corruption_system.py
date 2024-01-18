@@ -1,5 +1,6 @@
 from typing import Optional, List
 from factorio_simulation.entities.entity import Entity
+from factorio_simulation.entities.entity_registry import EntityRegistry
 from factorio_simulation.entities.tile import Tile
 from factorio_simulation.entities.fire import Fire
 from factorio_simulation.systems.system import System
@@ -10,11 +11,12 @@ import random
 
 class CorruptionSystem(System):
     def __init__(self,
+                 entity_registry: EntityRegistry,
                  base_entities: List[Entity] = None,
                  tick_rate: Optional[int] = 750):
 
         self.tick_rate = tick_rate
-        super().__init__(base_entities)
+        super().__init__(entity_registry, base_entities)
 
     def update(self, current_tick):
         if current_tick % self.tick_rate == 0:

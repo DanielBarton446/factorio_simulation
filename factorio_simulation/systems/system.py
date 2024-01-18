@@ -1,4 +1,5 @@
 from factorio_simulation.entities.entity import Entity
+from factorio_simulation.entities.entity_registry import EntityRegistry
 from typing import List, Dict
 
 from uuid import UUID
@@ -6,10 +7,13 @@ from uuid import UUID
 
 class System:
 
-    def __init__(self, base_entities: Dict[type, List[Entity]] = None):
+    def __init__(self, entity_registry: EntityRegistry,
+                 base_entities: Dict[type, List[Entity]] = None):
+        self.entity_registry = entity_registry
         self.entities: Dict[type, List[Entity]] = base_entities or dict()
 
     def add_entity(self, entity: Entity):
+        self.entity_registry.register(entity)
         if type(entity) not in self.entities:
             self.entities[type(entity)] = [entity]
         else:
