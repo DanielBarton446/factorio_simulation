@@ -16,7 +16,8 @@ class WorldSimulation:
                                         self.config.height)
         self.corruption = CorruptionSystem(self.world_system.entities, 300)
 
-        self.renderer = Renderer(self.world_system.world, tick_rate=1,
+        self.renderer = Renderer(self.world_system.get_readable_world(),
+                                 tick_rate=1,
                                  should_render=should_render)
         super().__init__()
 

@@ -1,9 +1,11 @@
 from factorio_simulation.components.component import Component
+from uuid import UUID
 
 
 class TileContent(Component):
 
-    def __init__(self, content=''):
+    def __init__(self, ent_id: UUID, content=''):
+        self.manifested_entity_id = ent_id
         self.content = content
         super().__init__()
 

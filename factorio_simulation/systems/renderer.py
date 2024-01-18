@@ -3,7 +3,7 @@ from factorio_simulation.entities.tile import Tile
 from factorio_simulation.systems.system import System
 from time import sleep
 
-from numpy.typing import ArrayLike
+from numpy.typing import NDArray
 
 import curses
 import sys
@@ -12,12 +12,12 @@ import signal
 
 class Renderer(System):
     def __init__(self,
-                 world: ArrayLike,
+                 world: NDArray[Tile],
                  tick_rate: Optional[int] = 1,
                  should_render: bool = True):
-        self.should_render = should_render
-        self.world = world
-        self.tick_rate = tick_rate
+        self.should_render: bool = should_render
+        self.world: NDArray[Tile] = world
+        self.tick_rate: int = tick_rate
 
         # handle ctrl + c before screwing up the terminal
         signal.signal(signal.SIGINT, Renderer.signal_handler)
