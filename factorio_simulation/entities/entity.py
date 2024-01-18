@@ -55,3 +55,9 @@ class Entity:
         """
 
         return self.components.get(component_type) is not None
+
+    def __repr__(self):
+        pass
+
+    def __str__(self):
+        pass

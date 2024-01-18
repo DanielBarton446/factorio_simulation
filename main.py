@@ -1,8 +1,10 @@
 from factorio_simulation.simulation import world_simulation
 # from factorio_simulation.simulation import dummy_simulation
-from factorio_simulation.utils import LOGGER
+from factorio_simulation.utils import get_logger
 import argparse
 
+
+logger = get_logger(__name__)
 
 def _setup_argparse():
     parser = argparse.ArgumentParser(description='Run a factorio simulation')
@@ -24,9 +26,9 @@ def main():
     # world = dummy_simulation.DummySimulation(args.config)
     world = world_simulation.WorldSimulation(not args.no_render, args.config)
 
-    LOGGER.info('Starting simulation')
+    logger.info('Starting simulation')
     world.run()
-    LOGGER.info('Finished simulation')
+    logger.info('Finished simulation')
 
 
 if __name__ == '__main__':

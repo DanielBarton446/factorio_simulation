@@ -6,7 +6,11 @@ from factorio_simulation.systems.world_system import WorldSystem
 from factorio_simulation.systems.interaction_movement_system import InteractionMovementSystem
 from factorio_simulation.systems.corruption_system import CorruptionSystem
 from factorio_simulation.systems.renderer import Renderer
+from factorio_simulation.utils import get_logger
 from typing import Optional
+
+
+logger = get_logger(__name__)
 
 
 class WorldSimulation:
@@ -46,6 +50,7 @@ class WorldSimulation:
 
     def run(self):
         while self.current_tick <= self.config.runtime_ticks:
+            logger.debug(f"Tick: {self.current_tick}")
             self.corruption.update(self.current_tick)
             self.interaction_system.update(self.current_tick)
             self.world_system.update(self.current_tick)
