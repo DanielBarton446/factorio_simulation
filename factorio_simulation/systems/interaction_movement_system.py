@@ -1,13 +1,17 @@
 from typing import Optional, List, Dict
 from factorio_simulation.components.transport_edge import TransportEdge
 from factorio_simulation.components.tile_content import TileContent
+from factorio_simulation.components.position import Position
 from factorio_simulation.entities.entity import Entity
 from factorio_simulation.entities.entity_registry import EntityRegistry
 from factorio_simulation.entities.tile import Tile
 from factorio_simulation.systems.system import System
 
+from factorio_simulation.utils import get_logger
+
 from numpy.typing import NDArray
 
+logger = get_logger(__name__)
 
 class InteractionMovementSystem(System):
     """
@@ -26,8 +30,6 @@ class InteractionMovementSystem(System):
         self.world = world
 
     def update(self, current_tick):
-        # eventually we will use the ticks of the
-        # entity to determine if we update the map or not
         if current_tick % 100 == 0:
             for entity_list in self.entities.values():
                 for entity in entity_list:
@@ -37,15 +39,23 @@ class InteractionMovementSystem(System):
                     source: (int, int) = entity.get_component(TransportEdge).source
                     dest: (int, int) = entity.get_component(TransportEdge).destination
 
-                    if self.world[dest[1]][dest[0]].get_component(TileContent).content != '.':
-                        # this shouldn't be done like this
+                    if self.world[source[1]][source[0]].get_component(TileContent).content == '.':
+                        # skip as we have nothing to move from source to dest
                         continue
 
-                    source_entity = self.world[source[1]][source[0]]
-                    source_component = source_entity.get_component(TileContent)
-                    source_entity.update_component(TileContent(ent_id=None))
+                    if self.world[dest[1]][dest[0]].get_component(TileContent).content != '.':
+                        # skip as we have something in the way
+                        continue
 
-                    dest_entity = self.world[dest[1]][dest[0]]
-                    # should at some point make sure nothing is here that we are overwriting
-                    # dest_component = dest_entity.get_component(TileContent)
-                    dest_entity.update_component(source_component)
+                    source_tile_entity = self.world[source[1]][source[0]]
+                    source_tile_component = source_tile_entity.get_component(TileContent)
+
+                    # update the entity that lives in the tile:
+                    real_entity = self.entity_registry.get(source_tile_component.manifested_entity_id)
+                    if real_entity is None:
+                        raise Exception(f"Entity {source_tile_component.manifested_entity_id} not found in registry. This should be impossible")
+                    real_entity.update_component(Position(dest[0], dest[1]))
+
+                    source_tile_entity.update_component(TileContent(ent_id=None))
+                    dest_tile_entity = self.world[dest[1]][dest[0]]
+                    dest_tile_entity.update_component(source_tile_component)

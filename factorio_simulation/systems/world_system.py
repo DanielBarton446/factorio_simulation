@@ -6,8 +6,11 @@ from factorio_simulation.components.position import Position
 from factorio_simulation.systems.system import System
 from numpy.typing import NDArray
 
+from factorio_simulation.utils import get_logger
+
 import numpy
 
+logger = get_logger(__name__)
 
 class WorldSystem(System):
     def __init__(self,
@@ -53,6 +56,7 @@ class WorldSystem(System):
         @param y: the cartesian y coordinate of the tile
         @param content: the content to set at the given coordinates.
         """
+
         self.__world[y][x].update_component(content)
 
     def __empty_map(self, width, height) -> NDArray[Tile]:
@@ -73,7 +77,7 @@ class WorldSystem(System):
                 comp_pos = tile.get_component(Position)
                 if self.__world[comp_pos.y][comp_pos.x] != tile:
                     evicted = self.get_tile(x, y)
-                    evicted.update_component(TileContent())
+                    evicted.update_component(TileContent(ent_id=None))
                     self.set_tile(evicted, x, y)
                     self.set_tile(tile, comp_pos.x, comp_pos.y)
                 position = tile.get_component(Position)

@@ -38,7 +38,7 @@ class WorldSimulation:
         self.corruption = CorruptionSystem(
                             entity_registry=self.entity_registry,
                             base_entities=self.world_system.entities,
-                            tick_rate=1000)
+                            tick_rate=200)
         self.corruption.add_entity(inserter)
         self.corruption.add_entity(inserter_b)
 

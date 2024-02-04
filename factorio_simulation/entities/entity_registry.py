@@ -3,6 +3,8 @@ from factorio_simulation.entities.entity import Entity
 from uuid import UUID
 from typing import Dict
 
+from typing import Optional
+
 
 class EntityRegistry:
     """A registry of entities."""
@@ -23,7 +25,7 @@ class EntityRegistry:
         """Unregister an entity."""
         del self._entities[entity_id]
 
-    def get(self, entity_id: UUID):
+    def get(self, entity_id: UUID) -> Optional[Entity]:
         """Get an entity by its id."""
         return self._entities.get(entity_id)
 
