@@ -33,11 +33,13 @@ class InteractionMovementSystem(System):
                 for entity in entity_list:
                     if self.remove_entity_if_deleted(entity):
                         continue
-                    # this should be handled better (x, y) should ideally be
-                    # used with a functinon call so we don't have to think 
-                    # about the order of dimensions
+
                     source: (int, int) = entity.get_component(TransportEdge).source
                     dest: (int, int) = entity.get_component(TransportEdge).destination
+
+                    if self.world[dest[1]][dest[0]].get_component(TileContent).content != '.':
+                        # this shouldn't be done like this
+                        continue
 
                     source_entity = self.world[source[1]][source[0]]
                     source_component = source_entity.get_component(TileContent)

@@ -2,6 +2,7 @@ from factorio_simulation.configs.config import load_config
 from factorio_simulation.components.tile_content import TileContent
 from factorio_simulation.entities.entity_registry import EntityRegistry
 from factorio_simulation.entities.inserter import Inserter
+from factorio_simulation.entities.berries import Berries
 from factorio_simulation.systems.world_system import WorldSystem
 from factorio_simulation.systems.interaction_movement_system import InteractionMovementSystem
 from factorio_simulation.systems.corruption_system import CorruptionSystem
@@ -56,7 +57,13 @@ class WorldSimulation:
     def run(self):
         try:
             while self.current_tick <= self.config.runtime_ticks:
+                if self.current_tick == 50:
+                    berry = Berries(0, 1)
+                    self.world_system.set_tile_content(berry.get_component(TileContent), 0, 1)
+                    self.corruption.add_entity(berry)
+
                 logger.debug(f"Tick: {self.current_tick}")
+
                 self.corruption.update(self.current_tick)
                 self.interaction_system.update(self.current_tick)
                 self.world_system.update(self.current_tick)

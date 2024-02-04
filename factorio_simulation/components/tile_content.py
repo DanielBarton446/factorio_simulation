@@ -8,7 +8,7 @@ logger = get_logger(__name__)
 
 class TileContent(Component):
 
-    def __init__(self, ent_id: UUID, content=''):
+    def __init__(self, ent_id: UUID, content='.'):
         super().__init__()
         self.manifested_entity_id = ent_id
         self.content = content

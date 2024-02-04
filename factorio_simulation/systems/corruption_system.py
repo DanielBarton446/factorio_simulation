@@ -6,8 +6,12 @@ from factorio_simulation.entities.fire import Fire
 from factorio_simulation.systems.system import System
 from factorio_simulation.components.tile_content import TileContent
 from factorio_simulation.components.position import Position
+from factorio_simulation.utils import get_logger
 
 import random
+
+
+logger = get_logger(__name__)
 
 
 class CorruptionSystem(System):
@@ -45,3 +49,4 @@ class CorruptionSystem(System):
             if tile_to_corrupt is not None:
                 tile_to_corrupt.update_component(
                     new_fire.get_component(TileContent))
+                logger.debug(f"Corrupted ({corrupted_entity.entity_id}) at {corrupted_entity.get_component(Position)}")
