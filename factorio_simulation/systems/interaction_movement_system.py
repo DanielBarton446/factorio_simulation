@@ -31,6 +31,8 @@ class InteractionMovementSystem(System):
         if current_tick % 100 == 0:
             for entity_list in self.entities.values():
                 for entity in entity_list:
+                    if self.remove_entity_if_deleted(entity):
+                        continue
                     # this should be handled better (x, y) should ideally be
                     # used with a functinon call so we don't have to think 
                     # about the order of dimensions
@@ -39,7 +41,7 @@ class InteractionMovementSystem(System):
 
                     source_entity = self.world[source[1]][source[0]]
                     source_component = source_entity.get_component(TileContent)
-                    source_entity.update_component(TileContent(None))
+                    source_entity.update_component(TileContent(ent_id=None))
 
                     dest_entity = self.world[dest[1]][dest[0]]
                     # should at some point make sure nothing is here that we are overwriting

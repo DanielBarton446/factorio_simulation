@@ -5,6 +5,7 @@ from factorio_simulation.entities.tile import Tile
 from factorio_simulation.entities.fire import Fire
 from factorio_simulation.systems.system import System
 from factorio_simulation.components.tile_content import TileContent
+from factorio_simulation.components.position import Position
 
 import random
 
@@ -18,10 +19,29 @@ class CorruptionSystem(System):
         self.tick_rate = tick_rate
         super().__init__(entity_registry, base_entities)
 
+    def get_tile_by_coordinates(self, pos: Position) -> Optional[Tile]:
+        for tile in self.entities[Tile]:
+            tile_pos = tile.get_component(Position)
+            if tile_pos.x == pos.x and tile_pos.y == pos.y:
+                return tile
+        return None
+
     def update(self, current_tick):
         if current_tick % self.tick_rate == 0:
             new_fire = Fire()
             self.add_entity(new_fire)
-            tile_to_corrupt = random.choice(self.entities[Tile])
-            tile_to_corrupt.update_component(
-                new_fire.get_component(TileContent))
+            entity_types_to_corrupt = list(self.entities.keys() - {Tile, Fire})
+
+            corrupution_candidates = self.entities[random.choice(entity_types_to_corrupt)]
+            if len(corrupution_candidates) == 0:
+                # no entities to corrupt
+                return
+            corrupted_entity = random.choice(corrupution_candidates)
+            self.entity_registry.unregister(corrupted_entity)
+            # this seems kind of gross to have to do
+            self.entities[type(corrupted_entity)].remove(corrupted_entity)
+
+            tile_to_corrupt = self.get_tile_by_coordinates(corrupted_entity.get_component(Position))
+            if tile_to_corrupt is not None:
+                tile_to_corrupt.update_component(
+                    new_fire.get_component(TileContent))

@@ -27,6 +27,10 @@ class EntityRegistry:
         """Get an entity by its id."""
         return self._entities.get(entity_id)
 
+    def exists(self, entity_id: UUID) -> bool:
+        """Check if an entity exists."""
+        return self._entities.get(entity_id) is not None
+
     def get_all(self):
         """Get all entities."""
         return self._entities.values()

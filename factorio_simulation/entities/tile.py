@@ -9,7 +9,7 @@ logger = get_logger(__name__)
 
 class Tile(Entity):
 
-    def __init__(self, x, y, content=None):
+    def __init__(self, x, y, content='.'):
         super().__init__()
 
         self.add_component(TileContent(ent_id=self.entity_id, content=content))

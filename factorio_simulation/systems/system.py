@@ -12,6 +12,22 @@ class System:
         self.entity_registry = entity_registry
         self.entities: Dict[type, List[Entity]] = base_entities or dict()
 
+    def remove_entity_if_deleted(self, entity: Entity) -> bool:
+        """
+        Our entity may be deleted from another system, and so this
+        provides a way to check if the entity is deleted and remove it.
+        We don't call this all the time to avoid unnecessary checks.
+        Might be something worth having in the main update loop.
+
+        Return True if an entity is deleted.
+        Return False if an entity is not deleted.
+        """
+
+        if not self.entity_registry.exists(entity.entity_id):
+            self.entities[entity.__class__].remove(entity)
+            return True
+        return False
+
     def add_entity(self, entity: Entity):
         self.entity_registry.register(entity)
         if type(entity) not in self.entities:

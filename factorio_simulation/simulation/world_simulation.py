@@ -25,16 +25,21 @@ class WorldSimulation:
                                         width=self.config.width,
                                         height=self.config.height)
         inserter = Inserter(x=1, y=1)
+        inserter_b = Inserter(x=1, y=2)
         self.world_system.set_tile_content(inserter.get_component(TileContent), 1, 1)
+        self.world_system.set_tile_content(inserter_b.get_component(TileContent), 1, 2)
         self.interaction_system = InteractionMovementSystem(
                                     entity_registry=self.entity_registry,
                                     world=self.world_system.get_readable_world())
         self.interaction_system.add_entity(inserter)
+        self.interaction_system.add_entity(inserter_b)
 
         self.corruption = CorruptionSystem(
                             entity_registry=self.entity_registry,
                             base_entities=self.world_system.entities,
-                            tick_rate=100)
+                            tick_rate=1000)
+        self.corruption.add_entity(inserter)
+        self.corruption.add_entity(inserter_b)
 
         self.renderer = Renderer(
                             world=self.world_system.get_readable_world(),
@@ -49,13 +54,19 @@ class WorldSimulation:
             return load_config(config_file_name)
 
     def run(self):
-        while self.current_tick <= self.config.runtime_ticks:
-            logger.debug(f"Tick: {self.current_tick}")
-            self.corruption.update(self.current_tick)
-            self.interaction_system.update(self.current_tick)
-            self.world_system.update(self.current_tick)
+        try:
+            while self.current_tick <= self.config.runtime_ticks:
+                logger.debug(f"Tick: {self.current_tick}")
+                self.corruption.update(self.current_tick)
+                self.interaction_system.update(self.current_tick)
+                self.world_system.update(self.current_tick)
 
-            self.renderer.update(self.current_tick)
+                self.renderer.update(self.current_tick)
 
-            self.current_tick += 1
-        self.renderer.teardown()
+                self.current_tick += 1
+            self.renderer.teardown()
+        except Exception as e:
+            # is there a better way to do this?
+            logger.exception(e)
+            self.renderer.teardown()
+            raise e
