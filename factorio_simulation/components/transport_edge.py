@@ -27,3 +27,11 @@ class TransportEdge(Component):
 
     def __repr__(self):
         return f"TransportEdge({self.source}, {self.destination})"
+
+    def to_dict(self):
+        return {
+            "TransportEdge": {
+                "source": self.source,
+                "destination": self.destination
+            }
+        }

@@ -11,4 +11,4 @@ class Component:
         return hash(type(self))
 
     def to_dict(self):
-        raise NotImplementedError
+        raise NotImplementedError(self.__class__.__name__ + " has not implemented to_dict")

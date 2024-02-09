@@ -49,3 +49,11 @@ class System:
 
     def update(self, current_tick):
         pass
+
+    def to_dict(self):
+        return {
+            self.__class__.__name__: {
+                "entity_registry": self.entity_registry.to_dict(),
+                "entities": [e.to_dict() for k, v in self.entities.items() for e in v]
+            }
+        }

@@ -40,3 +40,8 @@ class EntityRegistry:
     def __iter__(self):
         """Iterate over the entities."""
         return iter(self._entities.values())
+
+    def to_dict(self):
+        return {
+            "registry": {str(k): v.to_dict() for k, v in self._entities.items()}
+        }

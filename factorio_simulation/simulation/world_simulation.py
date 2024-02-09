@@ -10,6 +10,7 @@ from factorio_simulation.systems.renderer import Renderer
 from factorio_simulation.utils import get_logger
 from typing import Optional
 
+import json
 
 logger = get_logger(__name__)
 
@@ -42,10 +43,10 @@ class WorldSimulation:
         self.corruption.add_entity(inserter)
         self.corruption.add_entity(inserter_b)
 
-        self.renderer = Renderer(
-                            world=self.world_system.get_readable_world(),
-                            tick_rate=1,
-                            should_render=should_render)
+        # self.renderer = Renderer(
+        #                     world=self.world_system.get_readable_world(),
+        #                     tick_rate=1,
+        #                     should_render=should_render)
         super().__init__()
 
     def _load_config(self, config_file_name: Optional[str]):
@@ -54,14 +55,14 @@ class WorldSimulation:
         else:
             return load_config(config_file_name)
 
+    def sim_json(self):
+        state = [self.world_system.to_dict(), self.interaction_system.to_dict(),
+                 self.corruption.to_dict()]
+        return json.dumps(state)
+
     def run(self):
         try:
             while self.current_tick <= self.config.runtime_ticks:
-                if self.current_tick == 50:
-                    berry = Berries(0, 1)
-                    self.world_system.set_tile_content(berry.get_component(TileContent), 0, 1)
-                    self.corruption.add_entity(berry)
-
                 logger.debug(f"Tick: {self.current_tick}")
 
                 self.corruption.update(self.current_tick)
