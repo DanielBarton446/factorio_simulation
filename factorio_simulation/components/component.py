@@ -9,3 +9,6 @@ class Component:
 
     def __hash__(self):
         return hash(type(self))
+
+    def to_dict(self):
+        raise NotImplementedError

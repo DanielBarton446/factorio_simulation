@@ -56,6 +56,19 @@ class Entity:
 
         return self.components.get(component_type) is not None
 
+    def to_dict(self) -> Dict:
+        """
+        Return a dictionary representation of the entity
+        """
+        # we know that there can only be 1 type of each component, so
+        # we make an object instead of a list
+        return {
+            self.__class__.__name__:  {
+                "entity_id": str(self.entity_id),
+                "components": [component.to_dict() for component in self.components.values()]
+            }
+        }
+
     def __repr__(self):
         pass
 

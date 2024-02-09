@@ -28,3 +28,11 @@ class Position(Component):
 
     def __repr__(self):
         return f"Position({self.x}, {self.y})"
+
+    def to_dict(self):
+        return {
+            "Position": {
+                "x": self.x,
+                "y": self.y
+            }
+        }

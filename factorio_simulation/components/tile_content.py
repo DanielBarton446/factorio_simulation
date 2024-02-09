@@ -24,6 +24,14 @@ class TileContent(Component):
         return self.content == other.content
 
 
+    def to_dict(self):
+        return {
+            "TileContent": {
+                "held_entity_id": str(self.manifested_entity_id),
+                "content": self.content
+            }
+        }
+
     def __repr__(self):
         return f"TileContent({self.content})"
 
