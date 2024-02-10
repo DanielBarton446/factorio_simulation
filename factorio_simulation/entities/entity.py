@@ -3,6 +3,9 @@ from typing import Dict, Optional
 from uuid import uuid4
 from uuid import UUID
 
+from factorio_simulation.utils import get_logger
+
+logger = get_logger(__name__)
 
 class Entity:
     """
@@ -46,7 +49,11 @@ class Entity:
         """
         Given the type of component, return the component on the entity.
         """
-        return self.components.get(component_type)
+        try:
+            return self.components[component_type]
+        except KeyError:
+            logger.exception(f"{self.entity_id} does not have a component of type: {component_type}")
+            raise Exception(f"{self.entity_id} does not have a component of type: {component_type}")
 
     def has_component_type(self, component_type: type) -> bool:
         """

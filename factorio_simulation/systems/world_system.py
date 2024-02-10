@@ -1,5 +1,6 @@
 from typing import Optional, List
 from factorio_simulation.entities.tile import Tile
+from factorio_simulation.entities.entity import Entity
 from factorio_simulation.entities.entity_registry import EntityRegistry
 from factorio_simulation.components.tile_content import TileContent
 from factorio_simulation.components.position import Position
@@ -24,6 +25,23 @@ class WorldSystem(System):
 
     def get_readable_world(self):
         return self.__world.view()
+
+    def place_entity(self, entity: Entity) -> None:
+        # really wish we had a where clause here
+        # to ensure Entity has the components we need
+        # so we would get compile time errors.
+
+        if not entity.has_component_type(Position) or \
+           not entity.has_component_type(TileContent):
+            logger.error("Entity does not have the required components")
+            return
+
+        position = entity.get_component(Position)
+        tile_content = entity.get_component(TileContent)
+        self.set_tile_content(tile_content, position.x, position.y)
+        return
+
+
 
     def get_tile(self, x: int, y: int) -> Tile:
         """
