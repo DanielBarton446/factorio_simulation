@@ -7,8 +7,11 @@ from uuid import UUID
 
 class System:
 
-    def __init__(self, entity_registry: EntityRegistry,
-                 base_entities: Dict[type, List[Entity]] = None):
+    def __init__(
+        self,
+        entity_registry: EntityRegistry,
+        base_entities: Dict[type, List[Entity]] = None,
+    ):
         self.entity_registry = entity_registry
         self.entities: Dict[type, List[Entity]] = base_entities or dict()
 
@@ -54,6 +57,6 @@ class System:
         return {
             self.__class__.__name__: {
                 "entity_registry": self.entity_registry.to_dict(),
-                "entities": [e.to_dict() for k, v in self.entities.items() for e in v]
+                "entities": [e.to_dict() for k, v in self.entities.items() for e in v],
             }
         }

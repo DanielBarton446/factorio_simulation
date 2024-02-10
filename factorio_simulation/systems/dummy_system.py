@@ -16,6 +16,8 @@ class DummySystem(System):
         for entity in self.entities[DummyEntity]:
             if entity.has_component_type(DummyComponent):
                 name = entity.get_component(DummyComponent).name
-                print(f'Entity {entity.entity_id}: Hello, my name is {name}!')
+                print(f"Entity {entity.entity_id}: Hello, my name is {name}!")
             else:
-                print(f'{type(entity)}: does not have component of type: {DummyComponent}')
+                print(
+                    f"{type(entity)}: does not have component of type: {DummyComponent}"
+                )

@@ -13,11 +13,15 @@ import numpy
 
 logger = get_logger(__name__)
 
+
 class WorldSystem(System):
-    def __init__(self,
-                 entity_registry: EntityRegistry,
-                 width: int = 0, height: int = 0,
-                 base_entities: Optional[List[Tile]] = None):
+    def __init__(
+        self,
+        entity_registry: EntityRegistry,
+        width: int = 0,
+        height: int = 0,
+        base_entities: Optional[List[Tile]] = None,
+    ):
         super().__init__(entity_registry, base_entities)
         self.width = width
         self.height = height
@@ -31,8 +35,9 @@ class WorldSystem(System):
         # to ensure Entity has the components we need
         # so we would get compile time errors.
 
-        if not entity.has_component_type(Position) or \
-           not entity.has_component_type(TileContent):
+        if not entity.has_component_type(Position) or not entity.has_component_type(
+            TileContent
+        ):
             logger.error("Entity does not have the required components")
             return
 
@@ -40,8 +45,6 @@ class WorldSystem(System):
         tile_content = entity.get_component(TileContent)
         self.set_tile_content(tile_content, position.x, position.y)
         return
-
-
 
     def get_tile(self, x: int, y: int) -> Tile:
         """
@@ -90,7 +93,7 @@ class WorldSystem(System):
         # Iterate through the world and update the position of each tile
         # if they have been moved from their original position.
 
-        for (y, vals) in enumerate(self.__world):
+        for y, vals in enumerate(self.__world):
             for x, tile in enumerate(vals):
                 comp_pos = tile.get_component(Position)
                 if self.__world[comp_pos.y][comp_pos.x] != tile:

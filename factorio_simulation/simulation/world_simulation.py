@@ -5,7 +5,9 @@ from factorio_simulation.entities.entity_registry import EntityRegistry
 from factorio_simulation.entities.inserter import Inserter
 from factorio_simulation.entities.berries import Berries
 from factorio_simulation.systems.world_system import WorldSystem
-from factorio_simulation.systems.interaction_movement_system import InteractionMovementSystem
+from factorio_simulation.systems.interaction_movement_system import (
+    InteractionMovementSystem,
+)
 from factorio_simulation.systems.corruption_system import CorruptionSystem
 from factorio_simulation.systems.renderer import Renderer
 from factorio_simulation.utils import get_logger
@@ -18,23 +20,27 @@ logger = get_logger(__name__)
 
 class WorldSimulation:
 
-    def __init__(self, should_render: bool = True,
-                 config_file_name: Optional[str] = None):
+    def __init__(
+        self, should_render: bool = True, config_file_name: Optional[str] = None
+    ):
         self.config = self._load_config(config_file_name)
         self.current_tick = 0
 
         self.entity_registry = EntityRegistry()
-        self.world_system = WorldSystem(entity_registry=self.entity_registry,
-                                        width=self.config.width,
-                                        height=self.config.height)
+        self.world_system = WorldSystem(
+            entity_registry=self.entity_registry,
+            width=self.config.width,
+            height=self.config.height,
+        )
         inserter = Inserter(x=1, y=1)
         inserter_b = Inserter(x=3, y=1)
         self.world_system.place_entity(inserter)
         self.world_system.place_entity(inserter_b)
 
         self.interaction_system = InteractionMovementSystem(
-                                    entity_registry=self.entity_registry,
-                                    world=self.world_system.get_readable_world())
+            entity_registry=self.entity_registry,
+            world=self.world_system.get_readable_world(),
+        )
         self.interaction_system.add_entity(inserter)
         self.interaction_system.add_entity(inserter_b)
 
@@ -46,9 +52,10 @@ class WorldSimulation:
         # self.corruption.add_entity(inserter_b)
 
         self.renderer = Renderer(
-                            world=self.world_system.get_readable_world(),
-                            tick_rate=1,
-                            should_render=should_render)
+            world=self.world_system.get_readable_world(),
+            tick_rate=1,
+            should_render=should_render,
+        )
         super().__init__()
 
     def _load_config(self, config_file_name: Optional[str]):
@@ -58,8 +65,11 @@ class WorldSimulation:
             return load_config(config_file_name)
 
     def sim_json(self):
-        state = [self.world_system.to_dict(), self.interaction_system.to_dict(),
-                 self.corruption.to_dict()]
+        state = [
+            self.world_system.to_dict(),
+            self.interaction_system.to_dict(),
+            self.corruption.to_dict(),
+        ]
         return json.dumps(state)
 
     def run(self):
@@ -70,7 +80,7 @@ class WorldSimulation:
                 if self.current_tick == 50:
                     berries = Berries(x=0, y=1)
                     self.world_system.place_entity(berries)
-                    self.entity_registry.register(berries) # kinda sucks to need to do
+                    self.entity_registry.register(berries)  # kinda sucks to need to do
                     # self.corruption.add_entity(berries)
                 # self.corruption.update(self.current_tick)
                 self.interaction_system.update(self.current_tick)

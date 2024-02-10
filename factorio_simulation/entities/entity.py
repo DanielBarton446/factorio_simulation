@@ -7,6 +7,7 @@ from factorio_simulation.utils import get_logger
 
 logger = get_logger(__name__)
 
+
 class Entity:
     """
     An entity is a collection of components.
@@ -35,8 +36,7 @@ class Entity:
         Add a component to the entity
         """
         if self.components.get(type(component)) is not None:
-            raise Exception("Entity already has a component of type: ",
-                            type(component))
+            raise Exception("Entity already has a component of type: ", type(component))
         self.components[type(component)] = component
 
     def remove_component(self, component_type: type):
@@ -52,8 +52,12 @@ class Entity:
         try:
             return self.components[component_type]
         except KeyError:
-            logger.exception(f"{self.entity_id} does not have a component of type: {component_type}")
-            raise Exception(f"{self.entity_id} does not have a component of type: {component_type}")
+            logger.exception(
+                f"{self.entity_id} does not have a component of type: {component_type}"
+            )
+            raise Exception(
+                f"{self.entity_id} does not have a component of type: {component_type}"
+            )
 
     def has_component_type(self, component_type: type) -> bool:
         """
@@ -70,9 +74,11 @@ class Entity:
         # we know that there can only be 1 type of each component, so
         # we make an object instead of a list
         return {
-            self.__class__.__name__:  {
+            self.__class__.__name__: {
                 "entity_id": str(self.entity_id),
-                "components": [component.to_dict() for component in self.components.values()]
+                "components": [
+                    component.to_dict() for component in self.components.values()
+                ],
             }
         }
 

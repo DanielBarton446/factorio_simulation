@@ -7,11 +7,11 @@ logger = get_logger(__name__)
 
 class Position(Component):
     """
-        This position will have (x,y) coordinates,
-        truthful to x position and y position.
+    This position will have (x,y) coordinates,
+    truthful to x position and y position.
 
-        It is up to the user to adjust for any
-        issues with how x and y are represented in arrays.
+    It is up to the user to adjust for any
+    issues with how x and y are represented in arrays.
     """
 
     def __init__(self, x, y):
@@ -30,9 +30,4 @@ class Position(Component):
         return f"Position({self.x}, {self.y})"
 
     def to_dict(self):
-        return {
-            "Position": {
-                "x": self.x,
-                "y": self.y
-            }
-        }
+        return {"Position": {"x": self.x, "y": self.y}}

@@ -20,13 +20,12 @@ class Inserter(Entity):
         # from https://wiki.factorio.com/inserters
         self.add_component(Rotation(72))
 
-        logger.debug(f'Created Entity: ({self.entity_id}) {self}')
+        logger.debug(f"Created Entity: ({self.entity_id}) {self}")
 
     def __repr__(self):
         tile_content = self.get_component(TileContent)
-        return f'{tile_content}'
+        return f"{tile_content}"
 
     def __str__(self):
         tile_content = self.get_component(TileContent)
-        return f'{tile_content}'
-
+        return f"{tile_content}"

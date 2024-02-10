@@ -38,5 +38,5 @@ class DummySimulation:
     def run(self):
         while self.current_tick < self.config.runtime_ticks:
             self.current_tick += 1
-            print(f'Running tick {self.current_tick}')
+            print(f"Running tick {self.current_tick}")
             self.dummy_system.update(self.current_tick)

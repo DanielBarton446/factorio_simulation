@@ -15,12 +15,12 @@ class Berries(Entity):
 
         self.add_component(TileContent(self.entity_id, "󱁄"))
         self.add_component(Position(x, y))
-        logger.debug(f'Created Entity: ({self.entity_id}) {self}')
+        logger.debug(f"Created Entity: ({self.entity_id}) {self}")
 
     def __repr__(self):
         tile_content = self.get_component(TileContent)
-        return f'{tile_content}'
+        return f"{tile_content}"
 
     def __str__(self):
         tile_content = self.get_component(TileContent)
-        return f'{tile_content}'
+        return f"{tile_content}"

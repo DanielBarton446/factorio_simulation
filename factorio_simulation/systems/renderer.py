@@ -11,10 +11,12 @@ import signal
 
 
 class Renderer(System):
-    def __init__(self,
-                 world: NDArray[Tile],
-                 tick_rate: Optional[int] = 1,
-                 should_render: bool = True):
+    def __init__(
+        self,
+        world: NDArray[Tile],
+        tick_rate: Optional[int] = 1,
+        should_render: bool = True,
+    ):
         self.should_render: bool = should_render
         self.world: NDArray[Tile] = world
         self.tick_rate: int = tick_rate
@@ -56,7 +58,7 @@ class Renderer(System):
         self.world[y][x] = tile
 
     def render(self):
-        for (y, vals) in enumerate(self.world):
+        for y, vals in enumerate(self.world):
             for x, tile in enumerate(vals):
                 self.stdscr.addstr(y, x, str(tile))
         self.stdscr.refresh()

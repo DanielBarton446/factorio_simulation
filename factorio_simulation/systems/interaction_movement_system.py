@@ -14,6 +14,7 @@ from numpy.typing import NDArray
 
 logger = get_logger(__name__)
 
+
 class InteractionMovementSystem(System):
     """
     This system is responsible for the interactions of
@@ -22,26 +23,28 @@ class InteractionMovementSystem(System):
     Should likely be used strictly for rotation movement entities.
     """
 
-    def __init__(self,
-                 entity_registry: EntityRegistry,
-                 world: NDArray[Tile],
-                 base_entities: Optional[Dict[type, List[Entity]]] = None):
+    def __init__(
+        self,
+        entity_registry: EntityRegistry,
+        world: NDArray[Tile],
+        base_entities: Optional[Dict[type, List[Entity]]] = None,
+    ):
 
-        super().__init__(entity_registry=entity_registry,
-                         base_entities=base_entities)
+        super().__init__(entity_registry=entity_registry, base_entities=base_entities)
 
         self.world = world
 
     def increment_rotation_tick(self, entity: Entity):
         if not entity.has_component_type(Rotation):
-            raise Exception(f"Entity {entity} is missing a Rotation component. This should be impossible")
+            raise Exception(
+                f"Entity {entity} is missing a Rotation component. This should be impossible"
+            )
         rotation: Rotation = entity.get_component(Rotation)
 
         # this seems wrong for having the inserter go back and fourth
         rotation.current_tick += 1
         if rotation.current_tick >= rotation.ticks_per_full_turn:
             rotation.current_tick = 0
-
 
     def update(self, current_tick):
         for entity_list in self.entities.values():
@@ -50,18 +53,28 @@ class InteractionMovementSystem(System):
                     continue
 
                 if not entity.has_component_type(TransportEdge):
-                    raise Exception(f"Entity {entity} is missing a TransportEdge component. This should be impossible")
+                    raise Exception(
+                        f"Entity {entity} is missing a TransportEdge component. This should be impossible"
+                    )
                 if not entity.has_component_type(Rotation):
-                    raise Exception(f"Entity {entity} is missing a Rotation component. This should be impossible")
+                    raise Exception(
+                        f"Entity {entity} is missing a Rotation component. This should be impossible"
+                    )
 
                 source: (int, int) = entity.get_component(TransportEdge).source
                 dest: (int, int) = entity.get_component(TransportEdge).destination
 
-                if self.world[source[1]][source[0]].get_component(TileContent).content == '.':
+                if (
+                    self.world[source[1]][source[0]].get_component(TileContent).content
+                    == "."
+                ):
                     # skip as we have nothing to move from source to dest
                     continue
 
-                if self.world[dest[1]][dest[0]].get_component(TileContent).content != '.':
+                if (
+                    self.world[dest[1]][dest[0]].get_component(TileContent).content
+                    != "."
+                ):
                     # skip as we have something in the way
                     continue
 
@@ -82,9 +95,13 @@ class InteractionMovementSystem(System):
                 source_tile_component = source_tile_entity.get_component(TileContent)
 
                 # update the entity that lives in the tile:
-                real_entity = self.entity_registry.get(source_tile_component.manifested_entity_id)
+                real_entity = self.entity_registry.get(
+                    source_tile_component.manifested_entity_id
+                )
                 if real_entity is None:
-                    raise Exception(f"Entity {source_tile_component.manifested_entity_id} not found in registry. This should be impossible")
+                    raise Exception(
+                        f"Entity {source_tile_component.manifested_entity_id} not found in registry. This should be impossible"
+                    )
                 real_entity.update_component(Position(dest[0], dest[1]))
 
                 source_tile_entity.update_component(TileContent(ent_id=None))

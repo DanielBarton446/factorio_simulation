@@ -8,12 +8,11 @@ logger = get_logger(__name__)
 
 class TileContent(Component):
 
-    def __init__(self, ent_id: UUID, content='.'):
+    def __init__(self, ent_id: UUID, content="."):
         super().__init__()
         self.manifested_entity_id = ent_id
         self.content = content
         logger.debug(f"Created Component ({self.component_id}) {self}")
-
 
     def __hash__(self):
         return hash(type(self))
@@ -23,12 +22,11 @@ class TileContent(Component):
             return False
         return self.content == other.content
 
-
     def to_dict(self):
         return {
             "TileContent": {
                 "held_entity_id": str(self.manifested_entity_id),
-                "content": self.content
+                "content": self.content,
             }
         }
 

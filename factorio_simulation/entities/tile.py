@@ -9,17 +9,17 @@ logger = get_logger(__name__)
 
 class Tile(Entity):
 
-    def __init__(self, x, y, content='.'):
+    def __init__(self, x, y, content="."):
         super().__init__()
 
         self.add_component(TileContent(ent_id=self.entity_id, content=content))
         self.add_component(Position(x, y))
-        logger.debug(f'Created Entity: ({self.entity_id}) {self}')
+        logger.debug(f"Created Entity: ({self.entity_id}) {self}")
 
     def __repr__(self):
         tile_content = self.get_component(TileContent)
-        return f'{tile_content}'
+        return f"{tile_content}"
 
     def __str__(self):
         tile_content = self.get_component(TileContent)
-        return f'{tile_content}'
+        return f"{tile_content}"

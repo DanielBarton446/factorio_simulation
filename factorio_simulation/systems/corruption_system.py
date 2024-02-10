@@ -15,10 +15,12 @@ logger = get_logger(__name__)
 
 
 class CorruptionSystem(System):
-    def __init__(self,
-                 entity_registry: EntityRegistry,
-                 base_entities: List[Entity] = None,
-                 tick_rate: Optional[int] = 750):
+    def __init__(
+        self,
+        entity_registry: EntityRegistry,
+        base_entities: List[Entity] = None,
+        tick_rate: Optional[int] = 750,
+    ):
 
         self.tick_rate = tick_rate
         super().__init__(entity_registry, base_entities)
@@ -36,7 +38,9 @@ class CorruptionSystem(System):
             self.add_entity(new_fire)
             entity_types_to_corrupt = list(self.entities.keys() - {Tile, Fire})
 
-            corrupution_candidates = self.entities[random.choice(entity_types_to_corrupt)]
+            corrupution_candidates = self.entities[
+                random.choice(entity_types_to_corrupt)
+            ]
             if len(corrupution_candidates) == 0:
                 # no entities to corrupt
                 return
@@ -45,8 +49,11 @@ class CorruptionSystem(System):
             # this seems kind of gross to have to do
             self.entities[type(corrupted_entity)].remove(corrupted_entity)
 
-            tile_to_corrupt = self.get_tile_by_coordinates(corrupted_entity.get_component(Position))
+            tile_to_corrupt = self.get_tile_by_coordinates(
+                corrupted_entity.get_component(Position)
+            )
             if tile_to_corrupt is not None:
-                tile_to_corrupt.update_component(
-                    new_fire.get_component(TileContent))
-                logger.debug(f"Corrupted ({corrupted_entity.entity_id}) at {corrupted_entity.get_component(Position)}")
+                tile_to_corrupt.update_component(new_fire.get_component(TileContent))
+                logger.debug(
+                    f"Corrupted ({corrupted_entity.entity_id}) at {corrupted_entity.get_component(Position)}"
+                )

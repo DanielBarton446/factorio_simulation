@@ -30,8 +30,4 @@ class Rotation(Component):
         return f"Rotation({self.ticks_per_full_turn})"
 
     def to_dict(self):
-        return {
-            "Rotation": {
-                "rotation": self.ticks_per_full_turn
-            }
-       }
+        return {"Rotation": {"rotation": self.ticks_per_full_turn}}
