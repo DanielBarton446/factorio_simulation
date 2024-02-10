@@ -1,2 +1,3 @@
 randomname==0.2.1
 numpy==1.26.0
+black
