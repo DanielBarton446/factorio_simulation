@@ -1,8 +1,8 @@
+from typing import Dict, List
+from uuid import UUID
+
 from factorio_simulation.entities.entity import Entity
 from factorio_simulation.entities.entity_registry import EntityRegistry
-from typing import List, Dict
-
-from uuid import UUID
 
 
 class System:

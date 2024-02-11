@@ -1,8 +1,9 @@
-from typing import Optional, List, Dict
-from factorio_simulation.entities.entity import Entity
-from factorio_simulation.entities.dummy_entity import DummyEntity
-from factorio_simulation.systems.system import System
+from typing import Dict, List, Optional
+
 from factorio_simulation.components.dummy_component import DummyComponent
+from factorio_simulation.entities.dummy_entity import DummyEntity
+from factorio_simulation.entities.entity import Entity
+from factorio_simulation.systems.system import System
 
 
 class DummySystem(System):

@@ -1,12 +1,13 @@
 from enum import Enum
-from factorio_simulation.entities.ab_entity_factory import AbstractEntityFactory
-from factorio_simulation.entities.entity import Entity
-from factorio_simulation.entities.inserter import Inserter
 
 from factorio_simulation.components.position import Position
-from factorio_simulation.components.transport_edge import TransportEdge
 from factorio_simulation.components.rotation import Rotation
 from factorio_simulation.components.tile_content import TileContent
+from factorio_simulation.components.transport_edge import TransportEdge
+from factorio_simulation.entities.ab_entity_factory import \
+    AbstractEntityFactory
+from factorio_simulation.entities.entity import Entity
+from factorio_simulation.entities.inserter import Inserter
 
 
 class Orientation(Enum):

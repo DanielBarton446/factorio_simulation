@@ -1,7 +1,8 @@
-from factorio_simulation.utils import CONFIG_DIR
+import configparser
 from dataclasses import dataclass
 from os import path
-import configparser
+
+from factorio_simulation.utils import CONFIG_DIR
 
 
 @dataclass(frozen=True)

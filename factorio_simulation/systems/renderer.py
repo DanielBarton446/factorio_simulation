@@ -1,13 +1,13 @@
-from typing import Optional
-from factorio_simulation.entities.tile import Tile
-from factorio_simulation.systems.system import System
+import curses
+import signal
+import sys
 from time import sleep
+from typing import Optional
 
 from numpy.typing import NDArray
 
-import curses
-import sys
-import signal
+from factorio_simulation.entities.tile import Tile
+from factorio_simulation.systems.system import System
 
 
 class Renderer(System):

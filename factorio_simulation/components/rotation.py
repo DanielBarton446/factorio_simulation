@@ -1,7 +1,6 @@
 from factorio_simulation.components.component import Component
 from factorio_simulation.utils import get_logger
 
-
 logger = get_logger(__name__)
 
 

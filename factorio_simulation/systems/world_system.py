@@ -1,15 +1,15 @@
-from typing import Optional, List
-from factorio_simulation.entities.tile import Tile
-from factorio_simulation.entities.entity import Entity
-from factorio_simulation.entities.entity_registry import EntityRegistry
-from factorio_simulation.components.tile_content import TileContent
-from factorio_simulation.components.position import Position
-from factorio_simulation.systems.system import System
-from numpy.typing import NDArray
-
-from factorio_simulation.utils import get_logger
+from typing import List, Optional
 
 import numpy
+from numpy.typing import NDArray
+
+from factorio_simulation.components.position import Position
+from factorio_simulation.components.tile_content import TileContent
+from factorio_simulation.entities.entity import Entity
+from factorio_simulation.entities.entity_registry import EntityRegistry
+from factorio_simulation.entities.tile import Tile
+from factorio_simulation.systems.system import System
+from factorio_simulation.utils import get_logger
 
 logger = get_logger(__name__)
 

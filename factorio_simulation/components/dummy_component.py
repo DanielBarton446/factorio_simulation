@@ -1,5 +1,6 @@
-from factorio_simulation.components.component import Component
 import randomname
+
+from factorio_simulation.components.component import Component
 
 
 class DummyComponent(Component):

@@ -1,22 +1,20 @@
-from factorio_simulation.configs.config import load_config
-from factorio_simulation.components.tile_content import TileContent
-from factorio_simulation.components.position import Position
-from factorio_simulation.entities.entity_registry import EntityRegistry
-from factorio_simulation.entities.inserter import Inserter
-from factorio_simulation.entities.berries import Berries
-from factorio_simulation.systems.world_system import WorldSystem
-from factorio_simulation.systems.interaction_movement_system import (
-    InteractionMovementSystem,
-)
-from factorio_simulation.systems.corruption_system import CorruptionSystem
-from factorio_simulation.systems.renderer import Renderer
-from factorio_simulation.utils import get_logger
+import json
 from typing import Optional
 
-from factorio_simulation.entities.inserter_factory import InserterFactory
-from factorio_simulation.entities.inserter_factory import Orientation
-
-import json
+from factorio_simulation.components.position import Position
+from factorio_simulation.components.tile_content import TileContent
+from factorio_simulation.configs.config import load_config
+from factorio_simulation.entities.berries import Berries
+from factorio_simulation.entities.entity_registry import EntityRegistry
+from factorio_simulation.entities.inserter import Inserter
+from factorio_simulation.entities.inserter_factory import (InserterFactory,
+                                                           Orientation)
+from factorio_simulation.systems.corruption_system import CorruptionSystem
+from factorio_simulation.systems.interaction_movement_system import \
+    InteractionMovementSystem
+from factorio_simulation.systems.renderer import Renderer
+from factorio_simulation.systems.world_system import WorldSystem
+from factorio_simulation.utils import get_logger
 
 logger = get_logger(__name__)
 

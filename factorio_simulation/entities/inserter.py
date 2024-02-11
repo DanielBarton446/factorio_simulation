@@ -1,8 +1,7 @@
-from factorio_simulation.entities.entity import Entity
 from factorio_simulation.components.position import Position
 from factorio_simulation.components.tile_content import TileContent
+from factorio_simulation.entities.entity import Entity
 from factorio_simulation.utils import get_logger
-
 
 logger = get_logger(__name__)
 

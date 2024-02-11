@@ -1,9 +1,7 @@
-from factorio_simulation.entities.entity import Entity
-
+from typing import Dict, Optional
 from uuid import UUID
-from typing import Dict
 
-from typing import Optional
+from factorio_simulation.entities.entity import Entity
 
 
 class EntityRegistry:

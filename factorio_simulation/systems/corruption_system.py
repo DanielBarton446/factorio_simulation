@@ -1,15 +1,14 @@
-from typing import Optional, List
+import random
+from typing import List, Optional
+
+from factorio_simulation.components.position import Position
+from factorio_simulation.components.tile_content import TileContent
 from factorio_simulation.entities.entity import Entity
 from factorio_simulation.entities.entity_registry import EntityRegistry
-from factorio_simulation.entities.tile import Tile
 from factorio_simulation.entities.fire import Fire
+from factorio_simulation.entities.tile import Tile
 from factorio_simulation.systems.system import System
-from factorio_simulation.components.tile_content import TileContent
-from factorio_simulation.components.position import Position
 from factorio_simulation.utils import get_logger
-
-import random
-
 
 logger = get_logger(__name__)
 

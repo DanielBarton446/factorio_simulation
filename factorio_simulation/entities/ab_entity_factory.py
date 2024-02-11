@@ -1,5 +1,6 @@
-from factorio_simulation.entities.entity import Entity
 from abc import ABC, abstractmethod
+
+from factorio_simulation.entities.entity import Entity
 
 
 class AbstractEntityFactory(ABC):

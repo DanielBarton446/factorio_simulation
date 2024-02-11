@@ -1,8 +1,7 @@
-from factorio_simulation.components.component import Component
 from typing import Dict, Optional
-from uuid import uuid4
-from uuid import UUID
+from uuid import UUID, uuid4
 
+from factorio_simulation.components.component import Component
 from factorio_simulation.utils import get_logger
 
 logger = get_logger(__name__)

@@ -1,16 +1,16 @@
-from typing import Optional, List, Dict
-from factorio_simulation.components.transport_edge import TransportEdge
+from typing import Dict, List, Optional
+
+from numpy.typing import NDArray
+
+from factorio_simulation.components.position import Position
 from factorio_simulation.components.rotation import Rotation
 from factorio_simulation.components.tile_content import TileContent
-from factorio_simulation.components.position import Position
+from factorio_simulation.components.transport_edge import TransportEdge
 from factorio_simulation.entities.entity import Entity
 from factorio_simulation.entities.entity_registry import EntityRegistry
 from factorio_simulation.entities.tile import Tile
 from factorio_simulation.systems.system import System
-
 from factorio_simulation.utils import get_logger
-
-from numpy.typing import NDArray
 
 logger = get_logger(__name__)
 
