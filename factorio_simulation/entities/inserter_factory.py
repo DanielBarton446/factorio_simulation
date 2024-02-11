@@ -17,22 +17,21 @@ class Orientation(Enum):
 
 
 class InserterFactory(AbstractEntityFactory):
-    def create_entity(self, orientation: Orientation,
-                      x: int, y: int) -> Entity:
+    def create_entity(self, orientation: Orientation, x: int, y: int) -> Entity:
 
         transport = None
         img = ""
         if orientation == Orientation.UP:
-            transport = (TransportEdge((x, y + 1), (x, y - 1)))
+            transport = TransportEdge((x, y + 1), (x, y - 1))
             img = "↑"
         elif orientation == Orientation.DOWN:
-            transport = (TransportEdge((x, y - 1), (x, y + 1)))
+            transport = TransportEdge((x, y - 1), (x, y + 1))
             img = "↓"
         elif orientation == Orientation.LEFT:
-            transport = (TransportEdge((x + 1, y), (x - 1, y)))
+            transport = TransportEdge((x + 1, y), (x - 1, y))
             img = "←"
         elif orientation == Orientation.RIGHT:
-            transport = (TransportEdge((x - 1, y), (x + 1, y)))
+            transport = TransportEdge((x - 1, y), (x + 1, y))
             img = "→"
         else:
             raise ValueError(f"Invalid orientation: {orientation}")
