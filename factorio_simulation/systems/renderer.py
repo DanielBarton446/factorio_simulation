@@ -26,6 +26,8 @@ class Renderer(System):
         signal.signal(signal.SIGTERM, Renderer.signal_handler)
 
         self.stdscr = curses.initscr()
+        self.max_y, self.max_x = self.stdscr.getmaxyx()
+
         curses.curs_set(0)
 
         super().__init__(entity_registry=None)
@@ -60,7 +62,9 @@ class Renderer(System):
     def render(self):
         for y, vals in enumerate(self.world):
             for x, tile in enumerate(vals):
-                self.stdscr.addstr(y, x, str(tile))
+                y_offset = self.max_y // 2 - self.world.shape[0] // 2
+                x_offset = self.max_x // 2 - self.world.shape[1] // 2
+                self.stdscr.addstr(y + y_offset, x + x_offset, str(tile))
         self.stdscr.refresh()
         sleep(1 / 60)
 
