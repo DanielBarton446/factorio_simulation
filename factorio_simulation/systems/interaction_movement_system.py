@@ -2,6 +2,7 @@ from typing import Dict, List, Optional
 
 from numpy.typing import NDArray
 
+from factorio_simulation.components.movable import Movable
 from factorio_simulation.components.position import Position
 from factorio_simulation.components.rotation import Rotation
 from factorio_simulation.components.tile_content import TileContent
@@ -64,17 +65,21 @@ class InteractionMovementSystem(System):
                 source: (int, int) = entity.get_component(TransportEdge).source
                 dest: (int, int) = entity.get_component(TransportEdge).destination
 
-                if (
-                    self.world[source[1]][source[0]].get_component(TileContent).content
-                    == "."
-                ):
+                source_tile_entity = self.world[source[1]][source[0]]
+                source_tile_component = source_tile_entity.get_component(TileContent)
+
+                dest_tile_entity = self.world[dest[1]][dest[0]]
+                real_entity = self.entity_registry.get(
+                    source_tile_component.manifested_entity_id
+                )
+
+                if source_tile_entity.get_component(
+                    TileContent
+                ).content == "." or not real_entity.has_component_type(Movable):
                     # skip as we have nothing to move from source to dest
                     continue
 
-                if (
-                    self.world[dest[1]][dest[0]].get_component(TileContent).content
-                    != "."
-                ):
+                if dest_tile_entity.get_component(TileContent).content != ".":
                     # skip as we have something in the way
                     continue
 
@@ -84,20 +89,12 @@ class InteractionMovementSystem(System):
                 self.increment_rotation_tick(entity)
                 rotation = entity.get_component(Rotation)
                 half_turn = rotation.ticks_per_full_turn // 2
-                logger.debug(f"ROTATION: {rotation.current_tick}")
-                logger.debug(f"Half Turn: {half_turn}")
+
+                # only move every half turn
                 if rotation.current_tick % half_turn != 0:
-                    logger.debug(f"Rotating: {rotation.current_tick}")
                     continue
 
-                # should extract this out a bit more.
-                source_tile_entity = self.world[source[1]][source[0]]
-                source_tile_component = source_tile_entity.get_component(TileContent)
-
                 # update the entity that lives in the tile:
-                real_entity = self.entity_registry.get(
-                    source_tile_component.manifested_entity_id
-                )
                 if real_entity is None:
                     raise Exception(
                         f"Entity {source_tile_component.manifested_entity_id} not found in registry. This should be impossible"
@@ -105,5 +102,4 @@ class InteractionMovementSystem(System):
                 real_entity.update_component(Position(dest[0], dest[1]))
 
                 source_tile_entity.update_component(TileContent(ent_id=None))
-                dest_tile_entity = self.world[dest[1]][dest[0]]
                 dest_tile_entity.update_component(source_tile_component)

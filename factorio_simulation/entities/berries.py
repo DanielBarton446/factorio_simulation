@@ -1,3 +1,4 @@
+from factorio_simulation.components.movable import Movable
 from factorio_simulation.components.position import Position
 from factorio_simulation.components.tile_content import TileContent
 from factorio_simulation.entities.entity import Entity
@@ -13,6 +14,7 @@ class Berries(Entity):
 
         self.add_component(TileContent(self.entity_id, "󱁄"))
         self.add_component(Position(x, y))
+        self.add_component(Movable())
         logger.debug(f"Created Entity: ({self.entity_id}) {self}")
 
     def __str__(self):

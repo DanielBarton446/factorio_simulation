@@ -7,11 +7,11 @@ from factorio_simulation.configs.config import load_config
 from factorio_simulation.entities.berries import Berries
 from factorio_simulation.entities.entity_registry import EntityRegistry
 from factorio_simulation.entities.inserter import Inserter
-from factorio_simulation.entities.inserter_factory import (InserterFactory,
-                                                           Orientation)
+from factorio_simulation.entities.inserter_factory import InserterFactory, Orientation
 from factorio_simulation.systems.corruption_system import CorruptionSystem
-from factorio_simulation.systems.interaction_movement_system import \
-    InteractionMovementSystem
+from factorio_simulation.systems.interaction_movement_system import (
+    InteractionMovementSystem,
+)
 from factorio_simulation.systems.renderer import Renderer
 from factorio_simulation.systems.world_system import WorldSystem
 from factorio_simulation.utils import get_logger
@@ -44,6 +44,8 @@ class WorldSimulation:
         self.add_inserter(2, 3, Orientation.LEFT)
         self.add_inserter(1, 2, Orientation.UP)
 
+        self.add_inserter(0, 0, Orientation.RIGHT)
+        self.add_inserter(1, 0, Orientation.RIGHT)
         # self.corruption = CorruptionSystem(
         #                     entity_registry=self.entity_registry,
         #                     base_entities=self.world_system.entities,
