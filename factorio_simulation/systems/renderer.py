@@ -15,9 +15,7 @@ class Renderer(System):
         self,
         world: NDArray[Tile],
         tick_rate: Optional[int] = 1,
-        should_render: bool = True,
     ):
-        self.should_render: bool = should_render
         self.world: NDArray[Tile] = world
         self.tick_rate: int = tick_rate
 
@@ -72,8 +70,5 @@ class Renderer(System):
         curses.endwin()
 
     def update(self, current_tick):
-        if not self.should_render:
-            return
-
         if current_tick % self.tick_rate == 0:
             self.render()

@@ -33,16 +33,23 @@ class CorruptionSystem(System):
 
     def update(self, current_tick):
         if current_tick % self.tick_rate == 0:
-            new_fire = Fire()
-            self.add_entity(new_fire)
             entity_types_to_corrupt = list(self.entities.keys() - {Tile, Fire})
+
+            if len(entity_types_to_corrupt) == 0:
+                # no entity types to corrupt
+                return
 
             corrupution_candidates = self.entities[
                 random.choice(entity_types_to_corrupt)
             ]
+
             if len(corrupution_candidates) == 0:
                 # no entities to corrupt
                 return
+
+            new_fire = Fire()
+            self.add_entity(new_fire)
+
             corrupted_entity = random.choice(corrupution_candidates)
             self.entity_registry.unregister(corrupted_entity)
             # this seems kind of gross to have to do

@@ -44,6 +44,7 @@ class WorldSystem(System):
         position = entity.get_component(Position)
         tile_content = entity.get_component(TileContent)
         self.set_tile_content(tile_content, position.x, position.y)
+        self.add_entity(entity)
         return
 
     def get_tile(self, x: int, y: int) -> Tile:

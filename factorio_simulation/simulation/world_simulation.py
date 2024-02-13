@@ -13,6 +13,7 @@ from factorio_simulation.systems.interaction_movement_system import (
     InteractionMovementSystem,
 )
 from factorio_simulation.systems.renderer import Renderer
+from factorio_simulation.systems.system_manager import SystemManager
 from factorio_simulation.systems.world_system import WorldSystem
 from factorio_simulation.utils import get_logger
 
@@ -28,16 +29,20 @@ class WorldSimulation:
         self.current_tick = 0
 
         self.entity_registry = EntityRegistry()
-        self.world_system = WorldSystem(
+        self.system_manager = SystemManager()
+        world = WorldSystem(
             entity_registry=self.entity_registry,
             width=self.config.width,
             height=self.config.height,
         )
-
-        self.interaction_system = InteractionMovementSystem(
-            entity_registry=self.entity_registry,
-            world=self.world_system.get_readable_world(),
+        self.system_manager.append(world)
+        self.system_manager.append(
+            InteractionMovementSystem(
+                entity_registry=self.entity_registry,
+                world=world.get_readable_world(),
+            )
         )
+
         self.inserter_factory: InserterFactory = InserterFactory()
         self.add_inserter(2, 1, Orientation.RIGHT)
         self.add_inserter(3, 2, Orientation.DOWN)
@@ -46,24 +51,35 @@ class WorldSimulation:
 
         self.add_inserter(0, 0, Orientation.RIGHT)
         self.add_inserter(1, 0, Orientation.RIGHT)
-        # self.corruption = CorruptionSystem(
-        #                     entity_registry=self.entity_registry,
-        #                     base_entities=self.world_system.entities,
-        #                     tick_rate=200)
-        # self.corruption.add_entity(inserter)
-        # self.corruption.add_entity(inserter_b)
 
-        self.renderer = Renderer(
-            world=self.world_system.get_readable_world(),
-            tick_rate=1,
-            should_render=should_render,
+        self.system_manager.append(
+            CorruptionSystem(
+                entity_registry=self.entity_registry,
+                base_entities=world.entities,
+                tick_rate=200,
+            )
         )
+        self.system_manager.set_renderer(
+            Renderer(
+                world=world.get_readable_world(),
+                tick_rate=1,
+            )
+        )
+        if should_render:
+            self.system_manager.set_renderer(
+                Renderer(world=world.get_readable_world(), tick_rate=1)
+            )
+
         super().__init__()
 
     def add_inserter(self, x: int, y: int, orientation: Orientation):
         inserter = self.inserter_factory.create_entity(orientation, x, y)
-        self.world_system.place_entity(inserter)
-        self.interaction_system.add_entity(inserter)
+        world_system: WorldSystem = self.system_manager.get_system(WorldSystem)
+        interaction_system: InteractionMovementSystem = self.system_manager.get_system(
+            InteractionMovementSystem
+        )
+        world_system.place_entity(inserter)
+        interaction_system.add_entity(inserter)
         self.entity_registry.register(inserter)
 
     def _load_config(self, config_file_name: Optional[str]):
@@ -73,33 +89,26 @@ class WorldSimulation:
             return load_config(config_file_name)
 
     def sim_json(self):
-        state = [
-            self.world_system.to_dict(),
-            self.interaction_system.to_dict(),
-            self.corruption.to_dict(),
-        ]
+        state = [sys.to_dict() for sys in self.system_manager.systemc]
         return json.dumps(state)
 
     def run(self):
         try:
             while self.current_tick <= self.config.runtime_ticks:
                 logger.debug(f"Tick: {self.current_tick}")
-
                 if self.current_tick == 50:
                     berries = Berries(x=1, y=1)
-                    self.world_system.place_entity(berries)
-                    self.entity_registry.register(berries)  # kinda sucks to need to do
-                    # self.corruption.add_entity(berries)
-                # self.corruption.update(self.current_tick)
-                self.interaction_system.update(self.current_tick)
-                self.world_system.update(self.current_tick)
+                    self.entity_registry.register(berries)
+                    world = self.system_manager.get_system(WorldSystem)
+                    world.place_entity(berries)
 
-                self.renderer.update(self.current_tick)
-
+                for system in self.system_manager.all_system():
+                    system.update(self.current_tick)
                 self.current_tick += 1
-            self.renderer.teardown()
         except Exception as e:
             # is there a better way to do this?
             logger.exception(e)
-            self.renderer.teardown()
+            renderer = self.system_manager.renderer
+            if renderer:
+                renderer.teardown()
             raise e
